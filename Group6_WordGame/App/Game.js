@@ -4,6 +4,16 @@
 
     var GameController = function ($scope, $http) {
 
+        TextOutLoud = function (text) {
+            if ('speechSynthesis' in window) {
+
+                var msg = new SpeechSynthesisUtterance();
+                msg.voice = window.speechSynthesis.getVoices()[2];
+                msg.text = text;
+                speechSynthesis.speak(msg);
+            }
+        }
+
         $scope.Init = function ()
         {
 
@@ -65,7 +75,7 @@
             elem.draggable = false;
             ev.target.innerText = $scope.Answer[idstring];
 
-            
+            TextOutLoud(document.getElementById(data).innerText);
 
         }
 
@@ -105,10 +115,15 @@
                 "bill played with his toy car",
                 "i can not help it",
                 "my car was always that blue",
-                "you and I were born to die"
+                "you and I were born to love",
+                "the princess had several horses",
+                "i let you ride my pony",
+                "will you be my friend",
+                "you are taller than me"
             ];
-            var nextid = Math.round((Math.random() * 6));
 
+            var nextid = Math.round((Math.random() * 9));
+            alert(nextid)
             var sentence = sentences[nextid];
             var words = sentence.split(" ");
             var inwords = sentence.split(" ");
