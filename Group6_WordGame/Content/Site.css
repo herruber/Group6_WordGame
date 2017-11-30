@@ -16,9 +16,183 @@
     white-space: normal;
 }
 
+.dropzone{
+    display:inline;
+}
+
+body{
+    color:rgb(215, 215, 215);
+    background-color:rgb(43, 62, 80);
+    font-family:sans-serif;
+    text-align:center;
+    font-size:24px;
+
+}
+
+h1{
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+#container{
+    text-align:center;
+    width:50%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+
+.wordclass{
+    padding-left:4px;
+    padding-right:4px;
+    display:inline-block;
+    background-color:rgb(78, 93, 108);
+    text-align:center;
+
+    
+    text-shadow:2px 2px 1px rgba(0, 0, 0, 0.3);
+
+    border-radius:12px;
+    border-bottom:solid;
+    border-color:rgba(0, 0, 0, 0.3);
+    border-width:3px;
+}
+
+.dropped{
+    animation:DropAnim 0.5s;
+    animation-fill-mode:forwards;
+    
+}
+
+.arrow{
+    padding-left:40px;
+    padding-right:40px;
+    display:inline-block;
+    width:12px;
+    height:12px;
+    background-color:red;
+}
+
+.dropdiv{
+    
+    min-width:20px;
+    min-height:1em;
+    background-color:rgb(72, 202, 59);
+    display:inline-block;
+    text-align:center;
+    font-weight:bold;
+
+    text-shadow:2px 2px 1px rgba(0, 0, 0, 0.3);
+
+    border-radius:12px;
+    border-bottom:solid;
+    border-color:rgba(0, 0, 0, 0.3);
+    border-width:3px;
+}
+
+.dropzone{
+
+}
+
+#target{
+
+}
+
+.space{
+    display:inline-block;
+    width:10px;
+}
+
+footer{
+    font-size:14px;
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.fadeout{
+    animation: FadeOutAnim 1s;
+    animation-fill-mode:forwards;
+}
+
+.fadein{
+    animation: FadeInAnim 1s;
+    animation-fill-mode:forwards;
+    
+}
+
+#gameover{
+    transform:scale(0);
+}
+
+button{
+    background-color:rgb(223, 105, 26);
+    
+    color:rgb(215, 215, 215);
+
+    font-family:sans-serif;
+    text-align:center;
+    text-shadow:2px 2px 1px rgba(0, 0, 0, 0.7);
+
+
+    border:none;
+    border-radius:12px;
+    border-bottom:solid;
+    border-color:rgba(0, 0, 0, 0.3);
+    border-width:3px;
+}
+
+button:hover{
+
+}
+
+.xpbar{
+    border:2px solid rgba(0, 0, 0, 0.25);
+    width:300px;
+    height:12px;
+    display:inline-block;
+    background-color:rgb(91, 192, 222);
+    margin-left:auto;
+    margin-right:auto;
+
+}
+
+.xp{
+    background-color:rgb(92, 184, 92);
+    height:8px;
+    margin-top:auto;
+    margin-bottom:auto;
+
+    border:solid;
+    border-radius:4px;
+    border-color:rgba(0, 0, 0, 0.5);
+    border-width:1px;
+}
+
+.statbar{
+    display:inline-block;
+}
+
+@keyframes DropAnim{
+
+    0%   {transform:inherit;}
+    25%  {transform:rotateZ(45deg);}
+    50%  {transform:rotateZ(-45deg);}
+    100% {transform:rotateZ(0deg) scaleY(0.5); background-color:rgb(173, 29, 40)}
+
+}
+
+@keyframes FadeOutAnim{
+
+    0%   {transform:scale(1);}
+    100% {transform:scale(0); visibility:hidden}
+}
+
+@keyframes FadeInAnim{
+
+    0%   {transform:scale(0);}
+    100% {transform:scale(1); visibility:visible}
 }

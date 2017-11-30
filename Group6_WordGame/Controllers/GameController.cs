@@ -6,13 +6,17 @@ using System.Web.Mvc;
 using Group6_WordGame;
 using System.Reflection;
 using System.IO;
-using Group6_WordGame.Properties;
 
 namespace Group6_WordGame.Controllers
 {
     public class GameController : Controller
     {
-        string[] allwords;
+        string[] allsentences = {
+                                "I am a cat",
+                                "That tree is very dark",
+                                "Bill played with his toy car",
+                                "I can not help it"
+                                };
         // GET: Game
         public ActionResult Index()
         {
@@ -22,16 +26,14 @@ namespace Group6_WordGame.Controllers
         public List<string> GetWords()
         {
             Random rand = new Random();
-            List<string> currentwords = new List<string>();
 
-            allwords = Resources.Words.Replace("\r", "").Split('\n');
-            for (int c = 0; c < 20; c++)
-            {
-                int next = rand.Next(0, 1000);
-                currentwords.Add(allwords[next]);
-            }
+            string[] currentwords = allsentences[rand.Next(0, 3)].Split(' ');
 
-            return currentwords;
+            List<string> buffer = new List<string>();
+
+            currentwords.OrderBy(e => rand.Next(0, 3));
+
+            return currentwords.ToList();
         }
 
         // GET: Game/Details/5
