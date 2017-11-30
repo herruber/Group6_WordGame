@@ -14,6 +14,75 @@
             }
         }
 
+        VoiceRecognition = function () {
+            var recognition = new webkitSpeechRecognition();
+
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.onresult = function (e) {
+                // cancel onend handler
+                recognition.onend = null;
+                //alert(e.results[0][0].transcript)
+
+                var spokenword = e.results[0][0].transcript.toLowerCase();
+
+                switch (spokenword) {
+                    case "stop":
+                        TextOutLoud("Stopping voice recognition");
+                        recognition.onend = function () { };
+                        break;
+                    case "reload":
+                        TextOutLoud("Reloading..");
+                        location.reload();
+                        break;
+                    default:
+                        FindWord(spokenword);
+                        recognition.onend = function () { recognition.start() };
+                        break;
+                }
+
+
+            }
+            
+            // start listening
+            recognition.start();
+        }
+
+        FindWord = function(text)
+        {
+            //matches the spoken word with each word in the sentence, if match then break and move it
+            var match = "";
+            for (var w = 0; w < $scope.Answer.length; w++) {
+                
+                var tempword = $scope.ShuffledWords[w];
+
+                if (tempword == text && document.getElementById(w).draggable == true) {
+                    match = tempword;
+                    break;
+                }
+            }
+
+            //move the matched string to the first empty target
+            if (match) {
+
+                for (var t = 0; t < $scope.ShuffledWords.length; t++) {
+
+                    var temptargetstring = document.getElementById("target" + t).innerText;
+
+                    if (!temptargetstring) {
+                        document.getElementById("target" + t).innerText = match;
+                        $scope.Answer[t] = match;
+                        document.getElementById(w).classList.add("dropped");
+                        TextOutLoud(text); //Say back the spoken word
+                        break;
+                    }
+                }
+            }
+
+
+        }
+
         $scope.Init = function ()
         {
 
@@ -21,13 +90,21 @@
             $scope.level = 1;
             document.getElementById("xpid").style.width = 0 + "px";
 
+            $scope.completed = new Array();
+
+            VoiceRecognition();
+
             $scope.dropped = false;
             $scope.GetWords();
             $scope.Answer = new Array($scope.ShuffledWords.length);
             $scope.Score = 0;
             $scope.visibletest = false;
 
+            $scope.stage = 1;
+
             $scope.Reset();
+
+
         }
 
         $scope.Reset = function()
@@ -49,11 +126,15 @@
             }
 
             $scope.dropped = false;
+
+
             $scope.GetWords();
+
             $scope.Answer = new Array($scope.ShuffledWords.length);
             $scope.Score = 0;
             $scope.visibletest = false;
 
+            $scope.wordcounter = 0;
         }
 
         $scope.on_drop = function(ev)
@@ -61,11 +142,6 @@
             ev.preventDefault();
 
             var data = ev.dataTransfer.getData("text/html");
-            //$scope.AddToAnswer(document.getElementById(data).innerText, document.getElementById(data));
-            
-            //var nodeCopy = document.getElementById(data).cloneNode(true);
-            //nodeCopy.id = "newId"; /* We cannot use the same ID */
-            //ev.target.appendChild(nodeCopy);
 
             var idstring = ev.target.id.replace('target', '');
 
@@ -76,6 +152,7 @@
             ev.target.innerText = $scope.Answer[idstring];
 
             TextOutLoud(document.getElementById(data).innerText);
+            $scope.wordcounter = $scope.wordcounter + 1;
 
         }
 
@@ -92,19 +169,27 @@
             document.getElementById("gameview").classList.add("fadeout");
             document.getElementById("gameover").classList.add("fadein");
 
-            $scope.xp = $scope.xp + ($scope.Score * 100);
+            $scope.xp = $scope.xp + ($scope.Score * 32);
             
             //IF level up
             if ($scope.xp > 300) {
-                var bajs = Math.floor($scope.xp / 300);
-                $scope.xp = $scope.xp - (300 * bajs);
+                var mult = Math.floor($scope.xp / 300);
+                $scope.xp = $scope.xp - (300 * mult);
 
-                $scope.level = $scope.level + (bajs * 1);
-                var Ding = new Audio('applause3.wav');
+                $scope.level = $scope.level + (mult * 1);
+
+                if (!Ding) {
+                    var Ding = new Audio('jingle.ogg');
+                    Ding.volume = 0.5;
+                }
+                
+                
                 Ding.play();
             }
 
             document.getElementById("xpid").style.width = $scope.xp + "px";
+
+            $scope.completed.push($scope.sentence);
         }
 
         $scope.GetWords = function()
@@ -119,20 +204,24 @@
                 "the princess had several horses",
                 "i let you ride my pony",
                 "will you be my friend",
-                "you are taller than me"
+                "you are taller than me",
+                "this is a random sentence",
+                "very short sentences",
+                "i want candy",
+                "this is amazing",
+                "the seasons change quickly",
+                "lets watch a movie"
             ];
 
-            var nextid = Math.round((Math.random() * 9));
-            alert(nextid)
-            var sentence = sentences[nextid];
-            var words = sentence.split(" ");
-            var inwords = sentence.split(" ");
+            var nextid = Math.round((Math.random() * 16));
+
+            $scope.sentence = sentences[nextid];
+            var words = $scope.sentence.split(" ");
+            var inwords = $scope.sentence.split(" ");
 
             $scope.Correct = words;
 
             $scope.ShuffledWords = ShuffleWords(inwords);
-            
-            debugger;
         }
         
         ShuffleWords = function(a)

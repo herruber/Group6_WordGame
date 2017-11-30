@@ -55,8 +55,12 @@
             <br />
             <label>Play another game? <button ng-click="Reset()">Go!</button></label>
         </div>
+
+        
         
         <div class="statbar"> Lv:{{level}} <div class="xpbar"><div class="xp" id="xpid"> </div></div></div>
+        <hr />
+        <div class="history"><div class="history-row" ng-repeat="item in completed">{{item}}</div></div>
 
     </div>
 </div>
