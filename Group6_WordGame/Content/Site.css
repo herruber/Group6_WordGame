@@ -38,6 +38,7 @@ h1{
     width:50%;
     margin-left:auto;
     margin-right:auto;
+
 }
 
 
@@ -124,6 +125,14 @@ textarea {
     
 }
 
+.gameview{
+
+}
+
+.wordhistory{
+
+}
+
 #gameover{
     transform:scale(0);
 }
@@ -161,15 +170,23 @@ button:hover{
 
 }
 
+#leftmenu{
+   display:inline;
+}
+
+#rightdisplay{
+    display:inline;
+}
+
+.inline{
+
+    display:inline;
+}
+
 .upsidedown{
     transform:scaleY(-1);
 }
 
-.history{
-    /*font-size:14px;
-    background-color:rgba(72, 202, 59, 0.5);*/
-    overflow-y:scroll;
-}
 
 .history-row{
     font-size:14px;

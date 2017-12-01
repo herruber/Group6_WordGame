@@ -15,52 +15,63 @@
 
     <div ng-controller="GameController"  ng-init="Init()">
 
-        <div class="gameview" id="gameview" ng-show="!visibletest">
-            <script>
-                function allowDrop(ev) {
-                    ev.preventDefault();
-                }
+           
 
-                function drag(ev) {
-                    ev.dataTransfer.setData("text/html", ev.target.id);
-                }
+            <div class="gameview" id="gameview" ng-show="!visibletest">
+                <script>
+                    function allowDrop(ev) {
+                        ev.preventDefault();
+                    }
 
-            </script>
+                    function drag(ev) {
+                        ev.dataTransfer.setData("text/html", ev.target.id);
+                    }
 
-            <div class="wordclass" id="{{$index}}" draggable="true" ondragstart="drag(event)" ng-repeat="item in ShuffledWords">{{item}}</div> @*requires unique id for drag/drop to work*@
+                </script>
 
-            @*<div class="dropzone" ng-repeat="item in Words" > <div id="target" ondrop="drop(event)" ondragover="allowDrop(event)" allowDrop(event)"></div> <div class="space"></div> </div>*@
+                <div class="wordclass" id="{{$index}}" draggable="true" ondragstart="drag(event)" ng-repeat="item in ShuffledWords">{{item}}</div> @*requires unique id for drag/drop to work*@
+
+                @*<div class="dropzone" ng-repeat="item in Words" > <div id="target" ondrop="drop(event)" ondragover="allowDrop(event)" allowDrop(event)"></div> <div class="space"></div> </div>*@
+                <br />
+                <hr />
+                @*<div class="arrowcontainer"><div class="arrow" ng-repeat="item in ShuffledWords"></div></div>*@
+                <div class="dropzone" ng-repeat="item in ShuffledWords"> <div class="dropdiv" id="{{'target' +$index}}" ondrop="angular.element(this).scope().on_drop(event)" ondragover="allowDrop(event)"></div><div class="space"></div> </div>
+                <br />
+                <br />
+                <button ng-click="spellCheck()">Done</button>
+
+                @*<button ng-click="spellCheck(); visibletest = !visibletest">Done</button>*@
+
+
+            </div>
+
+            <div class="gameoverview" id="gameover">
+                Your Score: {{Score}}
+                <br />
+                <label>Play another game? <button ng-click="Reset()">Go!</button></label>
+            </div>
+
+
+
+
+            @*<div class="gameoverview" id="gameover" ng-show="visibletest">
+                Your Score: {{Score}}
+                <br />
+                <label>Play another game? <button ng-click="Init()">Go!</button></label>
+            </div>*@
+
+
+
+            <div class="statbar"> Lv:{{level}} <div class="xpbar"><div class="xp" id="xpid"> </div></div></div>
+
+            <br />
             <br />
             <hr />
-            @*<div class="arrowcontainer"><div class="arrow" ng-repeat="item in ShuffledWords"></div></div>*@
-            <div class="dropzone" ng-repeat="item in ShuffledWords"> <div class="dropdiv" id="{{'target' +$index}}" ondrop="angular.element(this).scope().on_drop(event)" ondragover="allowDrop(event)"></div><div class="space"></div> </div>
-            <br />
-            <br />
-            <button ng-click="spellCheck()">Done</button>
+        <div class="wordhistory"><div class="history-row" ng-repeat="item in completed track by $index">{{item}}</div></div>
 
-            @*<button ng-click="spellCheck(); visibletest = !visibletest">Done</button>*@
+
 
             
-        </div>
-
-
-        @*<div class="gameoverview" id="gameover" ng-show="visibletest">
-            Your Score: {{Score}}
-            <br />
-            <label>Play another game? <button ng-click="Init()">Go!</button></label>
-        </div>*@
-
-        <div class="gameoverview" id="gameover">
-            Your Score: {{Score}}
-            <br />
-            <label>Play another game? <button ng-click="Reset()">Go!</button></label>
-        </div>
-
-        
-        
-        <div class="statbar"> Lv:{{level}} <div class="xpbar"><div class="xp" id="xpid"> </div></div></div>
-        <hr />
-        <div class="history"><div class="history-row" ng-repeat="item in completed">{{item}}</div></div>
 
     </div>
 </div>

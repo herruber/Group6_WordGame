@@ -189,7 +189,7 @@
 
             document.getElementById("xpid").style.width = $scope.xp + "px";
 
-            $scope.completed.push($scope.sentence);
+            $scope.completed.push(angular.copy($scope.sentence));
         }
 
         $scope.GetWords = function()
